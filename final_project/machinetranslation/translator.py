@@ -1,4 +1,3 @@
-import json
 import os
 from ibm_watson import LanguageTranslatorV3
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
@@ -21,15 +20,23 @@ def english_to_french(english_text):
     '''
     This function returns french given an english input
     '''
-    french_text = language_translator.translate(text=english_text, model_id='en-fr').get_result()
+    if english_text != '':
+        tran_text = language_translator.translate(text=english_text, model_id='en-fr').get_result()
+        french_text = tran_text['translations'][0]['translation']
+    else:
+        french_text = ''
 
-    return french_text['translations'][0]['translation']
-    
+    return french_text
 
 def french_to_english(french_text):
     '''
     This function returns english given a french input
     '''
-    english_text = language_translator.translate(text=french_text, model_id='fr-en').get_result()
+    if french_text != '':
+        tran_text = language_translator.translate(text=french_text, model_id='fr-en').get_result()
+        english_text = tran_text['translations'][0]['translation']
+    else:
+        english_text = ''
+
+    return english_text
     
-    return english_text['translations'][0]['translation']
